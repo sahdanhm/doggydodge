@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kucing Menghindar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream:      #fdf6ee;
+      --warm-white: #fff9f2;
+      --sand:       #f0e4d0;
+      --caramel:    #d4956a;
+      --caramel-lt: #e8b48a;
+      --rust:       #c26a3a;
+      --mocha:      #7a4f35;
+      --sage:       #8eab90;
+      --sage-lt:    #b2c9b4;
+      --sage-dk:    #5c7a5e;
+      --blush:      #e8a0a0;
+      --blush-dk:   #c46060;
+      --shadow:     rgba(122, 79, 53, 0.12);
+      --shadow-md:  rgba(122, 79, 53, 0.20);
+      --text-dark:  #4a3525;
+      --text-mid:   #7a5a40;
+      --text-light: #a17353;
+      --cell-bg:    #f5ead8;
+      --cell-hover: #ecd8be;
+      --grid-bg:    #ede0cc;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 24px 16px 40px;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(212,149,106,0.10) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(142,171,144,0.10) 0%, transparent 50%);
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .header-title {
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--mocha);
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    .header-title span {
+      color: var(--caramel);
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-top: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .paw-deco {
+      display: inline-block;
+      font-size: 16px;
+      margin: 0 6px;
+      opacity: 0.5;
+    }
+
+    /* ── HUD ── */
+    .hud {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hud-card {
+      background: var(--warm-white);
+      border: 1.5px solid var(--sand);
+      border-radius: 14px;
+      padding: 10px 20px;
+      min-width: 110px;
+      text-align: center;
+      box-shadow: 0 2px 10px var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hud-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--shadow-md);
+    }
+
+    .hud-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 2px;
+    }
+
+    .hud-value {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--mocha);
+      line-height: 1;
+    }
+
+    .hud-card.score .hud-value { color: var(--rust); }
+    .hud-card.time  .hud-value { color: var(--sage-dk); }
+    .hud-card.level .hud-value { color: var(--caramel); }
+
+    .hud-icon {
+      font-size: 13px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    /* ── Game Wrapper ── */
+    .game-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* ── Grid ── */
+    .grid-container {
+      display: grid;
+      --cols: 10;
+        --cell: 40px;
+      grid-template-columns: repeat(var(--cols), var(--cell));
+      gap: 5px;
+      padding: 14px;
+      background: var(--grid-bg);
+      border-radius: 20px;
+      box-shadow:
+        0 4px 24px var(--shadow-md),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+      width: min(520px, 92vw);
+      height: min(520px, 92vw);
+    }
+
+    /* ── Cells ── */
+    .cell {
+      background: var(--cell-bg);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cell:hover {
+      background: var(--cell-hover);
+    }
+
+    /* Accent cells for subtle texture */
+    .cell:nth-child(7n+3)  { background: #f7eedd; }
+    .cell:nth-child(11n+5) { background: #f2e5cc; }
+
+    /* ── Player Cell ── */
+    .cell.player {
+      background: var(--sage-lt);
+      box-shadow: 0 0 0 2px var(--sage-dk), 0 2px 8px rgba(92,122,94,0.25);
+      border-radius: 8px;
+      z-index: 2;
+    }
+
+    .cell.player img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    /* ── Enemy Cells ── */
+    .cell.enemy {
+      border-radius: 8px;
+      z-index: 2;
+    }
+
+    .cell.enemy-red {
+      background: #fce8e8;
+      box-shadow: 0 0 0 2px var(--blush-dk), 0 2px 8px rgba(196,96,96,0.20);
+    }
+
+    .cell.enemy-orange {
+      background: #fdf0e0;
+      box-shadow: 0 0 0 2px var(--caramel), 0 2px 8px rgba(212,149,106,0.20);
+    }
+
+    .cell.enemy-dark {
+      background: #ede0d4;
+      box-shadow: 0 0 0 2px var(--mocha), 0 2px 8px rgba(122,79,53,0.20);
+    }
+
+    .cell.enemy img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    /* ── Lives Display ── */
+    .lives-row {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-top: -4px;
+    }
+
+    .life-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--blush);
+      border: 1.5px solid var(--blush-dk);
+    }
+
+    .life-dot.empty {
+      background: transparent;
+      border-color: var(--sand);
+    }
+
+    /* ── Footer Controls Hint ── */
+    .footer-hint {
+      margin-top: 14px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .hint-keys {
+      display: flex;
+      gap: 5px;
+    }
+
+    .hint-key {
+      background: var(--warm-white);
+      border: 1.5px solid var(--sand);
+      border-bottom-width: 2.5px;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-mid);
+      box-shadow: 0 1px 3px var(--shadow);
+    }
+
+    .hint-sep {
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    /* ── Threat legend ── */
+    .legend {
+      display: flex;
+      gap: 14px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-mid);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.fast   { background: var(--blush-dk); }
+    .legend-dot.medium { background: var(--caramel); }
+    .legend-dot.slow   { background: var(--mocha); }
+
+    /* ── Responsive ── */
+    @media (max-width: 420px) {
+      .header-title { font-size: 28px; }
+      .hud-card { min-width: 90px; padding: 8px 14px; }
+      .hud-value { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="header">
+    <p class="header-eyebrow">penugasan kalkulus lanjut</p>
+    <h1 class="header-title">Kitty<span>&nbsp;Scared</span></h1>
+    <p class="header-subtitle">
+      <span class="paw-deco">🐾</span>
+      Lindungi Syahdan Dari Kucing Jahat.
+      <span class="paw-deco">🐾</span>
+    </p>
+  </header>
+
+  <!-- ── HUD ── -->
+  <div class="hud">
+    <div class="hud-card score">
+      <span class="hud-icon">✦</span>
+      <div class="hud-label">Score</div>
+      <div class="hud-value">0</div>
+    </div>
+    <div class="hud-card time">
+      <span class="hud-icon">◷</span>
+      <div class="hud-label">Time</div>
+      <div class="hud-value">00:00</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── Game Area ── -->
+  <div class="game-wrapper">
+
+    <!-- Grid: 10×10 = 100 cells -->
+    <div class="grid-container" id="grid">
+
+      <!-- Row 1 -->
+      <div></div>
+      </div>
+      </div>
+      <script src="./grid.js"></script>
+      </body>
+</html>
