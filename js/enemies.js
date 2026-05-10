@@ -38,85 +38,91 @@ function spawnEnemy() {
     col,
     vRow,
     vCol,
-    speed: 0, // nanti dinamis
-    stepCounter: 0, // untuk kontrol gerak
-    moveThreshold: 5, // makin kecil → makin cepat
+    moveTimer: 0,
   });
 }
+function isFarFromPlayer(row, col) {
+  const dRow = row - state.player.row;
 
-// =====================
-// GERAK MUSUH DINAMIS
-// =====================
-function updateEnemies() {
+  const dCol = col - state.player.col;
+
+  // Manhattan Distance
+  const distance = Math.abs(dRow) + Math.abs(dCol);
+
+  return distance >= 3;
+}
+// ======================================
+// HITUNG MAX MUSUH
+// ======================================
+function getMaxEnemies() {
+  const elapsed = getElapsedSeconds();
+
+  return Math.min(15, 5 + Math.floor(elapsed / 10));
+}
+// ======================================
+// HITUNG DELAY SPAWN MUSUH
+// ======================================
+function getSpawnDelay() {
+  const elapsed = getElapsedSeconds();
+
+  const delay = 2 / (1 + elapsed * 0.015);
+
+  // batas minimum
+  return Math.max(0.2, delay);
+}
+
+// ======================================
+// HITUNG DELAY GERAK MUSUH
+// ======================================
+function getEnemyMoveDelay() {
+  const elapsed = getElapsedSeconds();
+
+  const delay = 0.8 / (1 + elapsed * 0.008);
+
+  return Math.max(0.1, delay);
+}
+
+// ======================================
+// SPAWN ENEMY TIMER
+// ======================================
+
+// penampung waktu spawn
+let spawnAccumulator = 0;
+
+// waktu frame sebelumnya
+let lastTime = performance.now();
+
+// ======================================
+// UPDATE MUSUH
+// ======================================
+function updateEnemies(delta) {
+  // ambil delay gerak terbaru
+  const moveDelay = getEnemyMoveDelay();
+
   for (let i = state.enemies.length - 1; i >= 0; i--) {
-    const e = state.enemies[i];
+    const enemy = state.enemies[i];
 
-    // kontrol kecepatan (frame skipping)
-    e.stepCounter++;
+    // =====================
+    // TIMER GERAK MUSUH
+    // =====================
 
-    if (e.stepCounter >= e.moveThreshold) {
-      e.row += e.vRow;
-      e.col += e.vCol;
+    enemy.moveTimer += delta;
 
-      e.stepCounter = 0;
+    // kalau sudah waktunya gerak
+    if (enemy.moveTimer >= moveDelay) {
+      enemy.row += enemy.vRow;
+      enemy.col += enemy.vCol;
+
+      // reset timer gerak
+      enemy.moveTimer = 0;
     }
 
-    // hapus kalau keluar grid
-    if (!inBounds(e.col, e.row)) {
+    // =====================
+    // HAPUS MUSUH
+    // =====================
+
+    if (!inBounds(enemy.col, enemy.row)) {
       state.enemies.splice(i, 1);
     }
   }
 }
-
-// =====================
-// DIFFICULTY SYSTEM
-// =====================
-let spawnInterval = 1000; // awal 1 detik
-let spawnTimer;
-
-// mulai spawn loop
-function startSpawning() {
-  clearInterval(spawnTimer);
-  spawnTimer = setInterval(() => {
-    if (state.running && !state.paused) {
-      spawnEnemy();
-    }
-  }, spawnInterval);
-}
-
-// =====================
-// DIFFICULTY RAMP
-// =====================
-function increaseDifficulty() {
-  // spawn makin cepat
-  spawnInterval = Math.max(200, spawnInterval - 50);
-
-  // restart interval dengan kecepatan baru
-  clearInterval(spawnTimer);
-  startSpawning();
-
-  // musuh makin cepat
-  state.enemies.forEach((e) => {
-    if (e.moveThreshold > 1) {
-      e.moveThreshold = Math.max(1, e.moveThreshold - 0.2);
-    }
-  });
-
-  console.log(`⚡ Level ${state.speedLevel} | spawn=${spawnInterval}ms`);
-}
-
-// setiap 5 detik naik level
-setInterval(() => {
-  if (state.running && !state.paused) {
-    increaseDifficulty();
-  }
-}, 5000);
-
-// =====================
-// MAKIN SULIT
-// =====================
-// function getEnemySpeed() {
-//   const t = state.elapsed / 1000; // detik
-//   console.log(t);
-//   return 2 + t * 0.1; // makin lama makin cepat
-// }
