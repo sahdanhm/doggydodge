@@ -1,7 +1,7 @@
 // =====================
 // BUILD GRID
 // =====================
-const grid = document.getElementById('grid');
+const grid = document.getElementById('grid-container');
 
 function buildGrid() {
   grid.innerHTML = ''; // penting kalau rebuild

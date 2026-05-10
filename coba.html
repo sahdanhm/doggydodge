@@ -5,42 +5,108 @@
     <title>Grid Test</title>
 
     <style>
-      body {
-        background: #111;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
-      #grid {
+      :root {
+        --cream: #fdf6ee;
+        --warm-white: #fff9f2;
+        --sand: #f0e4d0;
+        --caramel: #d4956a;
+        --caramel-lt: #e8b48a;
+        --rust: #c26a3a;
+        --mocha: #7a4f35;
+        --sage-lt: #b2c9b4;
+        --sage-dk: #5c7a5e;
+        --blush: #e8a0a0;
+        --blush-dk: #c46060;
+        --shadow: rgba(122, 79, 53, 0.12);
+        --shadow-md: rgba(122, 79, 53, 0.2);
+        --text-dark: #4a3525;
+        --text-mid: #7a5a40;
+        --text-light: #a17353;
+        --cell-bg: #f5ead8;
+        --cell-hover: #ecd8be;
+        --grid-bg: #ede0cc;
+      }
+
+      body {
+        font-family: 'Nunito', sans-serif;
+        min-height: 100vh;
+        background: #d6cfc8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 20px;
+        color: var(--text-dark);
+      }
+
+      #grid-container {
         display: grid;
         gap: 2px;
+        background: var(--grid-bg);
+
+        border-radius: 22px;
+        box-shadow:
+          0 4px 28px var(--shadow-md),
+          inset 0 1px 0 rgba(255, 255, 255, 0.6);
 
         /* default */
         --cols: 10;
         --cell: 40px;
 
+        padding: 40px;
         grid-template-columns: repeat(var(--cols), var(--cell));
       }
 
       .cell {
-        width: var(--cell);
-        height: var(--cell);
-        background: #222;
-        border: 1px solid #333;
+        background: var(--cell-bg);
+        border-radius: 6px;
+        border: 1px solid var(--cell-hover);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s;
+      }
+      .cell:hover {
+        background: var(--cell-hover);
+      }
+      .cell:nth-child(7n + 3) {
+        background: #f7eedd;
+      }
+      .cell:nth-child(11n + 5) {
+        background: #f2e5cc;
       }
       .player {
-        background: #00aaff !important;
+        /* background: #00aaff !important; */
+        /* background: var(--sage-lt); */
+        background: url(./assets/img/player.svg) !important;
+        box-shadow:
+          0 0 0 2px var(--sage-dk),
+          0 2px 8px rgba(92, 122, 94, 0.25);
+        z-index: 3;
       }
 
       .enemy {
-        background: #ff2244 !important;
+        /* background: #ff2244 !important; */
+        z-index: 2;
+
+        /* background: #fce8e8 !important; */
+        background: url(./assets/img/enemy-red.svg) !important;
+        box-shadow:
+          0 0 0 2px var(--blush-dk),
+          0 2px 8px rgba(196, 96, 96, 0.2);
       }
     </style>
   </head>
   <body>
-    <div id="grid"></div>
+    <div id="grid-container"></div>
     <script src="js/varible.js"></script>
     <script>
       // ======================================
@@ -53,16 +119,9 @@
       function getElapsedSeconds() {
         return (performance.now() - state.startTime) / 1000;
       }
-      // =====================
-      // STATE
-      // =====================
-      // let player = { x: 4, y: 4 };
-      // let enemies = [];
-      // let cells = [];
-      // let state.running = true;
     </script>
     <script src="js/grid.js"></script>
-    <script src="js/move.js"></script>
+    <script src="js/player.js"></script>
     <script src="js/eventlistener.js"></script>
     <script src="js/enemies.js"></script>
     <script src="js/render.js"></script>
@@ -141,7 +200,7 @@
         // checkCollision();
         console.log(state.enemies.length);
         render();
-
+        // playerUseSVG();
         // ======================
         // FRAME BERIKUTNYA
         // ======================
