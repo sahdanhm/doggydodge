@@ -2,7 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Grid Test</title>
+    <title>Doggy Dodge</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       *,
@@ -46,6 +50,51 @@
         padding: 32px 20px;
         color: var(--text-dark);
       }
+      /* ── Header ── */
+      .header {
+        text-align: center;
+        margin-bottom: 18px;
+      }
+
+      .header-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-bottom: 4px;
+      }
+
+      .header-title {
+        font-family: 'Nunito', sans-serif;
+        font-size: 38px;
+        font-weight: 900;
+        color: var(--mocha);
+        letter-spacing: -0.5px;
+        line-height: 1;
+      }
+
+      .header-title span {
+        color: var(--caramel);
+      }
+
+      .header-subtitle {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-light);
+        margin-top: 6px;
+        letter-spacing: 0.05em;
+      }
+
+      /* ── Layout ── */
+      .main-layout {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+        max-width: 960px;
+      }
 
       #grid-container {
         display: grid;
@@ -56,23 +105,18 @@
         box-shadow:
           0 4px 28px var(--shadow-md),
           inset 0 1px 0 rgba(255, 255, 255, 0.6);
-
-        /* default */
-        --cols: 10;
-        --cell: 40px;
-
-        padding: 40px;
-        grid-template-columns: repeat(var(--cols), var(--cell));
+        justify-content: center;
+        align-content: center;
+        width: 80vmin;
+        height: 80vmin;
+        padding: 5vmin;
       }
 
       .cell {
         background: var(--cell-bg);
         border-radius: 6px;
         border: 1px solid var(--cell-hover);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.15s;
+        aspect-ratio: 1/1;
       }
       .cell:hover {
         background: var(--cell-hover);
@@ -91,6 +135,7 @@
           0 0 0 2px var(--sage-dk),
           0 2px 8px rgba(92, 122, 94, 0.25);
         z-index: 3;
+        transition: all 0.15s;
       }
 
       .enemy {
@@ -102,11 +147,23 @@
         box-shadow:
           0 0 0 2px var(--blush-dk),
           0 2px 8px rgba(196, 96, 96, 0.2);
+        transition: all 0.1s;
       }
     </style>
   </head>
   <body>
-    <div id="grid-container"></div>
+    <!-- Header -->
+    <header class="header">
+      <p class="header-eyebrow">penugasan kalkulus lanjut</p>
+      <h1 class="header-title">Doggy <span>Dodge</span></h1>
+      <p class="header-subtitle">
+        🐾 &nbsp;Selamatkan Dirimu dari Doggy Galak &nbsp;🐾
+      </p>
+    </header>
+
+    <div class="main-layout">
+      <div id="grid-container"></div>
+    </div>
     <script src="js/varible.js"></script>
     <script>
       // ======================================

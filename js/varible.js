@@ -8,7 +8,6 @@ const state = {
   speedLevel: 1,
 };
 const config = {
-  rows: 10,
-  cols: 10,
-  size: 40,
+  rows: 5,
+  cols: 5,
 };
