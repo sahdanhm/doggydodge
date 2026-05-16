@@ -13,3 +13,23 @@ function movePlayer(vRow, vCol) {
   checkCollision();
   render();
 }
+function pressBtn(el, dir) {
+  // gerakkan player
+  switch (dir) {
+    case 'up':
+      movePlayer(-1, 0);
+      break;
+
+    case 'down':
+      movePlayer(1, 0);
+      break;
+
+    case 'left':
+      movePlayer(0, -1);
+      break;
+
+    case 'right':
+      movePlayer(0, 1);
+      break;
+  }
+}

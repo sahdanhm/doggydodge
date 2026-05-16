@@ -86,6 +86,124 @@
         letter-spacing: 0.05em;
       }
 
+      /* ── Widget Card ── */
+      .widget {
+        background: var(--warm-white);
+        border: 1.5px solid var(--sand);
+        border-radius: 16px;
+        padding: 14px;
+        box-shadow: 0 2px 10px var(--shadow);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .widget:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px var(--shadow-md);
+      }
+      .widget-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-bottom: 8px;
+      }
+
+      /* ── Left Panel ── */
+      .left-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 148px;
+        flex-shrink: 0;
+      }
+      .stat-widget {
+        text-align: center;
+      }
+
+      .stat-icon {
+        font-size: 18px;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .stat-value {
+        font-size: 30px;
+        font-weight: 900;
+        line-height: 1;
+        color: var(--mocha);
+      }
+
+      .stat-widget.score .stat-value {
+        color: var(--rust);
+      }
+      .stat-widget.time .stat-value {
+        color: var(--sage-dk);
+      }
+      .stat-widget.level .stat-value {
+        color: var(--caramel);
+      }
+
+      /* ── Right Panel ── */
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 148px;
+        flex-shrink: 0;
+        align-items: center;
+      }
+      /* D-Pad */
+      .dpad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 6px;
+        margin-top: 4px;
+      }
+
+      .dpad-btn {
+        aspect-ratio: 1;
+        background: var(--warm-white);
+        border: 1.5px solid var(--sand);
+        border-bottom: 3px solid var(--linen-dk, #cfc5b8);
+        border-radius: 12px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--text-dark);
+        box-shadow: 0 2px 6px var(--shadow);
+        transition:
+          transform 0.08s,
+          background 0.08s;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .dpad-btn:active,
+      .dpad-btn.pressed {
+        transform: translateY(2px);
+        background: var(--sand);
+        border-bottom-width: 1px;
+      }
+
+      .dpad-btn.empty {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        pointer-events: none;
+      }
+
+      .info-lines {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-light);
+        line-height: 2;
+      }
+
       /* ── Layout ── */
       .main-layout {
         display: flex;
@@ -162,7 +280,52 @@
     </header>
 
     <div class="main-layout">
+      <div class="left-panel">
+        <div class="widget stat-widget score">
+          <div class="widget-label">Score</div>
+          <span class="stat-icon">🏆</span>
+          <div class="stat-value">0</div>
+        </div>
+        <div class="widget stat-widget time">
+          <div class="widget-label">Waktu</div>
+          <span class="stat-icon">🕐</span>
+          <div class="stat-value">00:00</div>
+        </div>
+      </div>
+
+      <!-- game -->
       <div id="grid-container"></div>
+
+      <!-- Right Panel -->
+      <div class="right-panel">
+        <div class="widget" style="width: 100%; text-align: center">
+          <div class="widget-label">Nyawa</div>
+          <div class="lives-dots">
+            <div class="life-dot"></div>
+            <div class="life-dot"></div>
+            <div class="life-dot"></div>
+            <div class="life-dot empty"></div>
+            <div class="life-dot empty"></div>
+          </div>
+        </div>
+
+        <div class="widget" style="width: 100%">
+          <div class="widget-label">Kontrol</div>
+          <div class="dpad">
+            <div class="dpad-btn empty"></div>
+            <div class="dpad-btn" onmousedown="pressBtn(this, 'up')">▲</div>
+            <div class="dpad-btn empty"></div>
+
+            <div class="dpad-btn" onmousedown="pressBtn(this, 'left')">◀</div>
+            <div class="dpad-btn empty"></div>
+            <div class="dpad-btn" onmousedown="pressBtn(this, 'right')">▶</div>
+
+            <div class="dpad-btn empty"></div>
+            <div class="dpad-btn" onmousedown="pressBtn(this, 'down')">▼</div>
+            <div class="dpad-btn empty"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="js/varible.js"></script>
     <script>
