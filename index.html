@@ -282,14 +282,18 @@
     <div class="main-layout">
       <div class="left-panel">
         <div class="widget stat-widget score">
-          <div class="widget-label">Score</div>
+          <div class="widget-label">High Score</div>
           <span class="stat-icon">🏆</span>
-          <div class="stat-value">0</div>
+          <div class="stat-value" id="high-score">0</div>
+        </div>
+        <div class="widget stat-widget score">
+          <div class="widget-label">Score</div>
+          <div class="stat-value" id="score">0</div>
         </div>
         <div class="widget stat-widget time">
           <div class="widget-label">Waktu</div>
           <span class="stat-icon">🕐</span>
-          <div class="stat-value">00:00</div>
+          <div class="stat-value" id="time">00:00</div>
         </div>
       </div>
 
@@ -344,28 +348,10 @@
     <script src="js/player.js"></script>
     <script src="js/eventlistener.js"></script>
     <script src="js/enemies.js"></script>
+    <script src="js/score.js"></script>
+    <script src="js/time.js"></script>
     <script src="js/render.js"></script>
     <script title="me">
-      // // score
-      // let score = 0;
-      // let highScore = loadHighScore();
-      // function loadHighScore() {
-      //   return Number(localStorage.getItem('highScore')) || 0;
-      // }
-
-      // function saveHighScore(newScore) {
-      //   localStorage.setItem('highScore', newScore);
-      // }
-      // function updateScore() {
-      //   score += 1;
-      //   console.log(score);
-      //   if (score > highScore) {
-      //     highScore = score;
-      //     saveHighScore(highScore);
-      //   }
-      // }
-      // setInterval(updateScore, 100);
-
       // pause
       // let paused = false;
       // document.addEventListener('keydown', (e) => {
@@ -411,9 +397,10 @@
 
           spawnTimer = 0;
         }
-        // ======================
-        // UPDATE GAME
-        // ======================
+
+        updateTime(delta);
+
+        updateScore(delta);
 
         updateEnemies(delta);
 
