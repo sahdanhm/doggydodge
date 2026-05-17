@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doggy Dodge</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/game.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <p class="header-eyebrow">penugasan kalkulus lanjut</p>
+      <h1 class="header-title">Doggy <span>Dodge</span></h1>
+      <p class="header-subtitle">
+        🐾 &nbsp;Selamatkan Dirimu dari Doggy Galak &nbsp;🐾
+      </p>
+    </header>
+
+    <div class="main-layout">
+      <div class="left-panel">
+        <div class="widget stat-widget score">
+          <div class="widget-label">High Score</div>
+          <div class="stat-value" id="high-score">0</div>
+        </div>
+        <div class="widget stat-widget score">
+          <div class="widget-label">Score</div>
+          <div class="stat-value" id="score">0</div>
+        </div>
+        <div class="widget stat-widget time">
+          <div class="widget-label">Waktu</div>
+          <div class="stat-value" id="time">00:00</div>
+        </div>
+      </div>
+
+      <!-- game -->
+      <div id="grid-container"></div>
+
+      <!-- Right Panel -->
+      <div class="right-panel">
+        <div class="widget game-info">
+          <div class="widget-label">Cara Main</div>
+
+          <div class="info-lines">
+            <p>&bull; Hindari semua Doggy</p>
+
+            <p>&bull; Gunakan WASD / Arrow Key / tombol arah</p>
+
+            <p>&bull; Bertahan selama mungkin</p>
+          </div>
+        </div>
+
+        <div class="widget mobile-control" style="width: 100%">
+          <div class="widget-label">Kontrol</div>
+          <div class="dpad">
+            <div class="dpad-btn empty"></div>
+            <div class="dpad-btn" onmousedown="pressBtn(this, 'up')">▲</div>
+            <div class="dpad-btn empty"></div>
+
+            <div class="dpad-btn" onmousedown="pressBtn(this, 'left')">◀</div>
+            <div class="dpad-btn empty"></div>
+            <div class="dpad-btn" onmousedown="pressBtn(this, 'right')">▶</div>
+
+            <div class="dpad-btn empty"></div>
+            <div class="dpad-btn" onmousedown="pressBtn(this, 'down')">▼</div>
+            <div class="dpad-btn empty"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/varible.js"></script>
+    <script>
+      // ======================================
+      // WAKTU MULAI GAME
+      // ======================================
+      state.startTime = performance.now();
+      // ======================================
+      // AMBIL LAMA WAKTU BERMAIN (DETIK)
+      // ======================================
+      function getElapsedSeconds() {
+        return (performance.now() - state.startTime) / 1000;
+      }
+    </script>
+    <script src="js/grid.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/eventlistener.js"></script>
+    <script src="js/enemies.js"></script>
+    <script src="js/score.js"></script>
+    <script src="js/time.js"></script>
+    <script src="js/render.js"></script>
+    <script title="me">
+      // pause
+      // let paused = false;
+      // document.addEventListener('keydown', (e) => {
+      //   const key = e.key.toLowerCase();
+
+      //   // Pause dengan ESC atau P
+      //   if (key === 'escape' || key === 'p') {
+      //     e.preventDefault();
+      //     paused = true;
+      //     return;
+      //   }
+      //   // Resume dengan space
+      //   if (key === ' ' || key === 'r') {
+      //     e.preventDefault();
+      //     paused = false;
+      //     return;
+      //   }
+      // });
+    </script>
+    <script>
+      // =====================
+      // GAME LOOP
+      // =====================
+      let spawnTimer = 0;
+      function loop() {
+        if (!state.running || state.paused) return;
+
+        // waktu sekarang
+        const now = performance.now();
+
+        // delta time
+        const delta = (now - lastTime) / 1000;
+        // simpan frame sekarang
+        lastTime = now;
+        // tambah waktu spawn
+        spawnTimer += delta;
+        // kalau sudah waktunya spawn
+        if (
+          spawnTimer >= getSpawnDelay() &&
+          state.enemies.length < getMaxEnemies()
+        ) {
+          spawnEnemy();
+
+          spawnTimer = 0;
+        }
+
+        updateTime(delta);
+
+        updateScore(delta);
+
+        updateEnemies(delta);
+
+        // checkCollision();
+        console.log(state.enemies.length);
+        render();
+        // playerUseSVG();
+        // ======================
+        // FRAME BERIKUTNYA
+        // ======================
+
+        requestAnimationFrame(loop);
+      }
+
+      // =====================
+      // INIT
+      // =====================
+      buildGrid();
+      spawnEnemy();
+      render();
+      loop();
+    </script>
+  </body>
+</html>
