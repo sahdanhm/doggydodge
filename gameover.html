@@ -65,8 +65,12 @@
         </h2>
 
         <p class="overlay-desc">
-          Skor akhir: <strong>1540</strong><br />
-          Waktu bertahan: <strong>00:45</strong>
+          Skor akhir:
+          <strong id="final-score">0</strong>
+          <br />
+
+          Waktu bertahan:
+          <strong id="final-time">00:00</strong>
         </p>
 
         <div class="overlay-buttons">
@@ -80,5 +84,14 @@
         </div>
       </div>
     </main>
+    <script>
+      const score = sessionStorage.getItem('lastScore') || 0;
+
+      const time = sessionStorage.getItem('lastTime') || '00:00';
+
+      document.getElementById('final-score').textContent = score;
+
+      document.getElementById('final-time').textContent = time;
+    </script>
   </body>
 </html>

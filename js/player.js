@@ -33,3 +33,52 @@ function pressBtn(el, dir) {
       break;
   }
 }
+// ======================
+// CHECK COLLISION
+// ======================
+
+function checkCollision() {
+  const player = state.player;
+
+  const hit = state.enemies.some((enemy) => {
+    return enemy.row === player.row && enemy.col === player.col;
+  });
+
+  // kalau tidak tabrakan
+  if (!hit) return;
+
+  // ======================
+  // GAME OVER
+  // ======================
+
+  state.running = false;
+  state.gameOver = true;
+
+  // ======================
+  // UPDATE HIGHSCORE
+  // ======================
+
+  if (state.score > state.highScore) {
+    state.highScore = state.score;
+
+    saveHighScore();
+
+    updateScoreUI();
+  }
+
+  // ======================
+  // SIMPAN DATA GAME TERAKHIR
+  // ======================
+
+  sessionStorage.setItem('lastScore', Math.floor(state.score));
+
+  sessionStorage.setItem(
+    'lastTime',
+    document.getElementById('time').textContent,
+  );
+
+  sessionStorage.setItem('lastHighScore', state.highScore);
+
+  // pindah halaman
+  window.location.href = 'gameover.html';
+}
