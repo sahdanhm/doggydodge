@@ -12,8 +12,8 @@ const state = {
   elapsedTime: 0,
 };
 const config = {
-  rows: 5,
-  cols: 5,
+  rows: 8,
+  cols: 8,
 };
 const sounds = {
   move: new Audio('assets/sound/move.wav'),
