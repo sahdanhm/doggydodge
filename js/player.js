@@ -10,6 +10,7 @@ function movePlayer(vRow, vCol) {
   state.player.row = newRow;
   state.player.col = newCol;
 
+  playSound(sounds.move);
   checkCollision();
   render();
 }
@@ -53,7 +54,10 @@ function checkCollision() {
 
   state.running = false;
   state.gameOver = true;
-
+  sounds.bgm.pause();
+  sounds.bgm.currentTime = 0;
+  playSound(sounds.hit);
+  
   // ======================
   // UPDATE HIGHSCORE
   // ======================
@@ -80,5 +84,7 @@ function checkCollision() {
   sessionStorage.setItem('lastHighScore', state.highScore);
 
   // pindah halaman
-  window.location.href = 'gameover.html';
+  setTimeout(() => {
+    window.location.href = 'gameover.html';
+  }, 2000);
 }

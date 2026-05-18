@@ -15,3 +15,8 @@ const config = {
   rows: 5,
   cols: 5,
 };
+const sounds = {
+  move: new Audio('assets/sound/move.wav'),
+  hit: new Audio('assets/sound/hit.wav'),
+  bgm: new Audio('assets/sound/bgm.mp3'),
+};
