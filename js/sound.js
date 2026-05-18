@@ -1,6 +1,6 @@
 // volume
-sounds.move.volume = 0.09;
-sounds.hit.volume = 0.6;
+sounds.move.volume = 1;
+sounds.hit.volume = 1;
 sounds.bgm.volume = 0;
 sounds.bgm.loop = true;
 
@@ -14,8 +14,8 @@ function playSound(sound) {
 }
 function startBGM() {
 
-  const targetVolume = 0.1; // volume akhir
-  const fadeDuration = 5000; // 3 detik
+  const targetVolume = 1; // volume akhir
+  const fadeDuration = 3000; // 3 detik
 
   sounds.bgm.volume = 0;
 
