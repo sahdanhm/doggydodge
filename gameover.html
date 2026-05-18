@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Doggy Dodge - Game Over</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/gameover.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <p class="header-eyebrow">penugasan kalkulus lanjut</p>
+
+      <h1 class="header-title">Doggy <span>Dodge</span></h1>
+
+      <p class="header-subtitle">🐾 Hindari Doggy Galak 🐾</p>
+    </header>
+
+    <main class="game-wrapper">
+      <div class="grid-container">
+        <!-- 100 cell -->
+
+        <div class="cell"></div>
+        <div class="cell"></div>
+
+        <div class="cell enemy enemy-red">
+          <img src="/objek/enemy1.jpg" />
+        </div>
+
+        <div class="cell"></div>
+        <div class="cell"></div>
+
+        <div class="cell player">
+          <img src="/objek/player1.jpg" />
+        </div>
+
+        <div class="cell"></div>
+
+        <div class="cell enemy enemy-orange">
+          <img src="/objek/enemy2.jpg" />
+        </div>
+
+        <div class="cell"></div>
+
+        <div class="cell enemy enemy-dark">
+          <img src="/objek/enemy3.jpg" />
+        </div>
+
+        <!-- sisanya isi cell kosong -->
+      </div>
+
+      <div class="overlay">
+        <div class="overlay-badge">🐾 GAME OVER</div>
+
+        <h2 class="overlay-title">
+          Kamu<br />
+          <em>Tertangkap!</em>
+        </h2>
+
+        <p class="overlay-desc">
+          Skor akhir: <strong>1540</strong><br />
+          Waktu bertahan: <strong>00:45</strong>
+        </p>
+
+        <div class="overlay-buttons">
+          <button class="btn-primary" onclick="location.href = 'game.html'">
+            Coba Lagi
+          </button>
+
+          <button class="btn-secondary" onclick="location.href = 'index.html'">
+            Menu Utama
+          </button>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
