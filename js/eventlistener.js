@@ -1,25 +1,17 @@
 document.addEventListener('keydown', function (e) {
   const key = e.key.toLowerCase();
 
-  // // Pause/Resume dengan ESC atau P
-  // if (key === 'escape' || key === 'p') {
-  //   e.preventDefault();
-  //   if (state.gameOver) return;
-  //   togglePause();
-  //   return;
-  // }
+  
+if (key === 'escape' || key === 'p') {
+  if (state.paused) {
+    resumeGame();
+  } else {
+    pauseGame();
+  }
+}
 
-  // // Jika game tidak berjalan atau paused atau game over, abaikan input gerak
-  // if (!state.running || state.paused || state.gameOver) return;
-
-  // function togglePause() {
-  //   if (state.gameOver) return;
-  //   if (state.paused) {
-  //     resumeGame();
-  //   } else {
-  //     pauseGame();
-  //   }
-  // }
+  // Jika game tidak berjalan atau paused atau game over, abaikan input gerak
+  if (!state.running || state.paused || state.gameOver) return;
 
    // prevent scroll untuk arrow
   if (['arrowup','arrowdown','arrowleft','arrowright'].includes(key)) {

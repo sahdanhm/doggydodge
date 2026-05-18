@@ -297,6 +297,287 @@ body {
   transition: all 0.1s;
 }
 
+/* ======================
+   PAUSE BUTTON
+====================== */
+
+#pause-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 20%;
+  cursor: pointer;
+  font-size: 18px;
+  background: var(--caramel);
+  color: white;
+  z-index: 1000;
+  box-shadow:
+    0 4px 0 var(--rust),
+    0 6px 16px rgba(212, 149, 106, 0.35);
+  transition: 0.2s;
+  -webkit-border-radius: 20%;
+  -moz-border-radius: 20%;
+  -ms-border-radius: 20%;
+  -o-border-radius: 20%;
+}
+
+#pause-btn:hover {
+  transform: translateY(-2px);
+}
+
+#pause-btn:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    0 1px 0 var(--rust),
+    0 3px 10px rgba(212, 149, 106, 0.2);
+}
+
+/* ======================
+   OVERLAY
+====================== */
+
+#pause-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(253, 246, 238, 0.75);
+
+  backdrop-filter: blur(6px);
+
+  z-index: 999;
+}
+
+#pause-overlay.active {
+  display: flex;
+}
+
+/* ======================
+   CARD
+====================== */
+
+.pause-card {
+  width: min(90vw, 420px);
+
+  background: rgba(253, 246, 238, 0.95);
+
+  border-radius: 22px;
+
+  padding: 35px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 18px;
+
+  border: 1px solid var(--sand);
+
+  box-shadow:
+    0 4px 28px var(--shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ======================
+   CONTENT
+====================== */
+
+.pause-badge {
+  background: var(--caramel-lt);
+
+  padding: 5px 14px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.pause-title {
+  font-size: 38px;
+  font-weight: 900;
+
+  line-height: 1.1;
+
+  text-align: center;
+
+  color: var(--mocha);
+}
+
+.pause-title em {
+  color: var(--rust);
+  font-style: normal;
+}
+
+.pause-desc {
+  color: var(--text-mid);
+
+  text-align: center;
+
+  line-height: 1.7;
+}
+
+/* ======================
+   BUTTON
+====================== */
+
+.pause-buttons {
+  display: flex;
+  gap: 10px;
+
+  width: 100%;
+}
+
+.pause-buttons button {
+  flex: 1;
+}
+
+.btn-primary,
+.btn-secondary {
+  font-family: 'Nunito';
+
+  font-size: 15px;
+  font-weight: 800;
+
+  border: none;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  padding: 13px 30px;
+
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background: var(--caramel);
+
+  color: white;
+
+  box-shadow:
+    0 4px 0 var(--rust),
+    0 6px 16px rgba(212, 149, 106, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  border: 2px solid var(--caramel);
+
+  background: transparent;
+
+  color: var(--caramel);
+}
+
+.btn-secondary:hover {
+  background: var(--caramel);
+
+  color: white;
+}
+
+/* animasi */
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* ======================
+   COUNTDOWN
+====================== */
+
+#countdown-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: none;
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1200;
+
+  /* transparan */
+  background: transparent;
+
+  pointer-events: none;
+}
+
+#countdown-overlay.active {
+  display: flex;
+}
+
+.countdown-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 14px;
+
+  animation: pop 0.3s;
+}
+
+.countdown-number {
+  font-size: 120px;
+  font-weight: 900;
+
+  line-height: 1;
+
+  color: var(--rust);
+
+  text-shadow:
+    0 0 12px rgba(255, 255, 255, 0.8),
+    0 4px 20px rgba(0, 0, 0, 0.15);
+
+  animation: pulse 0.8s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (min-width: 1025px) {
   .mobile-control {
     display: none;
@@ -377,13 +658,13 @@ body {
   .stat-value {
     font-size: 22px;
   }
-  .dpad-btn{
-  user-select:none;
-  -webkit-user-select:none;
-  -webkit-touch-callout:none;
-  -webkit-tap-highlight-color:transparent;
-  touch-action:none;
-}
+  .dpad-btn {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+  }
 }
 
 /* ==========================
@@ -414,6 +695,25 @@ body {
     grid-template-columns: repeat(2, 1fr);
 
     gap: 10px;
+  }
+
+  .pause-title {
+    font-size: 28px;
+  }
+
+  .pause-desc {
+    font-size: 13px;
+  }
+
+  .pause-buttons {
+    flex-direction: column;
+  }
+
+  .pause-buttons button {
+    width: 100%;
+  }
+  .countdown-number {
+    font-size: 70px;
   }
 }
 

@@ -11,6 +11,35 @@
     <link rel="stylesheet" href="css/game.css" />
   </head>
   <body>
+    <button id="pause-btn" onclick="pauseGame()">⏸</button>
+
+    <div id="pause-overlay">
+      <div class="pause-card">
+        <div class="pause-badge">🐾 PAUSED</div>
+
+        <h2 class="pause-title">
+          Game<br />
+          <em>Dijeda</em>
+        </h2>
+
+        <p class="pause-desc">Permainan sedang dihentikan sementara</p>
+
+        <div class="pause-buttons">
+          <button class="btn-primary" onclick="resumeGame()">Resume</button>
+
+          <button class="btn-secondary" onclick="location.href = 'index.html'">
+            Menu Utama
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="countdown-overlay">
+      <div class="countdown-content">
+        <div class="pause-badge">🐾 GET READY</div>
+
+        <h2 id="countdown-number" class="countdown-number">3</h2>
+      </div>
+    </div>
     <!-- Header -->
     <header class="header">
       <p class="header-eyebrow">penugasan kalkulus lanjut</p>
@@ -91,27 +120,8 @@
     <script src="js/score.js"></script>
     <script src="js/time.js"></script>
     <script src="js/sound.js"></script>
+    <script src="js/pause.js"></script>
     <script src="js/render.js"></script>
-    <script title="me">
-      // pause
-      // let paused = false;
-      // document.addEventListener('keydown', (e) => {
-      //   const key = e.key.toLowerCase();
-
-      //   // Pause dengan ESC atau P
-      //   if (key === 'escape' || key === 'p') {
-      //     e.preventDefault();
-      //     paused = true;
-      //     return;
-      //   }
-      //   // Resume dengan space
-      //   if (key === ' ' || key === 'r') {
-      //     e.preventDefault();
-      //     paused = false;
-      //     return;
-      //   }
-      // });
-    </script>
     <script>
       // =====================
       // GAME LOOP
@@ -161,7 +171,7 @@
       buildGrid();
       spawnEnemy();
       render();
-      startBGM()
+      startBGM();
       loop();
     </script>
   </body>
